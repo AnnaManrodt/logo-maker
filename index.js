@@ -7,21 +7,9 @@
 //this is just text were we create certian elements using svg is a type of file that does stuff 
 // the outter <svg is all the same 
 // the inner is what chnages, 
-const inquirer = require("inquirer")
-const { ColdObservable } = require("rxjs/internal/testing/ColdObservable")
+const inquirer = require("inquirer");
 const fs = require("fs");
-const {Traingle} = require("./lib/shapes")
-const {Circle} = require("./lib/shapes")
-const {Square} = require("./lib/shapes")
-// the text has a fill vaule that matches what eve the user chose for the ColdObservable, 
-
-// text property 
-
-// <svg version = 1.1 width = 300 height = "200" 
-// circle cs=150 cy= 100 r=80 filll = Color 
-
-//use classes thing about say we wrote a class to handle the svg part 
-
+const { Triangle, Circle, Square } = require("./lib/shapes");
 
 inquirer
   .prompt([
@@ -32,57 +20,50 @@ inquirer
     },
     {
       type: "input",
-      message: "what color",
+      message: "What color?",
       name: "shapeColor"
     },
     {
       type: "list",
-      message: "what shape do you want?",
+      message: "What shape do you want?",
       name: "shape",
       choices: ["Triangle", "Circle", "Square"]
-    },
-  ]) .then (response => {
-    const svgFile = `
-    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    ${response.shape}
-    ${response.shapeColor}
-    ${response.letters}
-    `
+    }
+  ])
+  .then(response => {
+    const svgFile = `<svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">`;
 
     if (response.letters.length !== 3) {
       console.log("Please enter exactly 3 letters");
       return;
     }
 
-      const color = response.shapeColor;
-      const letters = response.letters;
+    const color = response.shapeColor;
+    const letters = response.letters;
 
-
-      switch (response.shape) {
-        case "Triangle":
-          const traingle = new Traingle(color, letters)
-          render(traingle)
-          break;
-        case "Circle":
-          const circle = new Circle(color, letters);
-          render(circle)
-          break;
-        case "Square":
-          const square = new Square(color, letters);
-            render(square);
-          break;
-        default:
-          console.log("Invalid shape choice");
-          return;
-      }
-      function render(shape){
-      fs.writeFile("logo.svg", svgFile, function(err){
-        if(err){
-          console.error("Error writing file:" + err)
-        }
-        else{
-          console.log("Generated logo.svg")
-        }
-      })
+    let shape;
+    switch (response.shape) {
+      case "Triangle":
+        shape = new Triangle(color, letters);
+        break;
+      case "Circle":
+        shape = new Circle(color, letters);
+        break;
+      case "Square":
+        shape = new Square(color, letters);
+        break;
+      default:
+        console.log("Invalid shape choice");
+        return;
     }
-})
+
+    const svgContent = svgFile + shape.render() + `</svg>`;
+
+    fs.writeFile("logo.svg", svgContent, function(err) {
+      if (err) {
+        console.error("Error writing file: " + err);
+      } else {
+        console.log("Generated logo.svg");
+      }
+    });
+  });
