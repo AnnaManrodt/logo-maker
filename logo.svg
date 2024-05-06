@@ -1,2 +1,2 @@
-<svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg"><circle cx="150" cy="100" r="80" fill="green " />
+<svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg"><rect width='200' height='200' x='10' y='10'  fill="blue " />
         <text x="150" y="100" text-anchor="middle" alignment-baseline="middle" fill="white">ART</text></svg>

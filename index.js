@@ -1,16 +1,8 @@
-// promt to enter text for log 
-// enter a text color 
-// enter a shape 
-// and color for the shape
-// it says its generate a logo 
-//  it create a text file called logonot html files in this 
-//this is just text were we create certian elements using svg is a type of file that does stuff 
-// the outter <svg is all the same 
-// the inner is what chnages, 
 const inquirer = require("inquirer");
 const fs = require("fs");
 const { Triangle, Circle, Square } = require("./lib/shapes");
 
+//questions to get the input for the shape
 inquirer
   .prompt([
     {
@@ -19,9 +11,10 @@ inquirer
       name: "letters"
     },
     {
-      type: "input",
+      type: "list",
       message: "What color?",
-      name: "shapeColor"
+      name: "shapeColor",
+      choices: ["red", "blue", "green", "yellow", "cyan", "magenta"],
     },
     {
       type: "list",
@@ -31,6 +24,7 @@ inquirer
     }
   ])
   .then(response => {
+    //builds the svg file
     const svgFile = `<svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">`;
 
     if (response.letters.length !== 3) {
@@ -41,6 +35,8 @@ inquirer
     const color = response.shapeColor;
     const letters = response.letters;
 
+
+    //swithch statments to determin shape and build from there
     let shape;
     switch (response.shape) {
       case "Triangle":
@@ -58,6 +54,7 @@ inquirer
     }
 
     const svgContent = svgFile + shape.render() + `</svg>`;
+// writes the actually file
 
     fs.writeFile("logo.svg", svgContent, function(err) {
       if (err) {
